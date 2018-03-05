@@ -5,8 +5,7 @@
     let multiplyDigits n = 
         let rec calc n acc = 
             match n with
-            |0 when acc = 1 -> 0
-            |0 -> acc
+            |0 -> if (n / 10) < 0 then acc else 0
             |_ -> calc (n / 10) (acc * (n % 10))
         calc n 1
 
@@ -26,3 +25,31 @@
        match s with
        |""  -> true
        |_ -> List.forall (fun i -> s.[i] = s.[s.Length - i - 1]) [0..s.Length/2]
+
+    // task 2.4
+
+    let mergeLists left right = 
+        let rec merge left right lt = 
+            match left, right with 
+            |[], [] -> lt
+            |head::tail, [] | [], head::tail -> merge [] tail (head::lt)
+            | leftHead::leftTail, rightHead::rightTail ->
+                if leftHead < rightHead then merge leftTail right (leftHead::lt)
+                else merge left rightTail (rightHead::lt)
+        merge left right [] |> List.rev
+
+    let divideList lt = 
+        let rec divide left right lt = 
+            match lt with 
+            |[] -> (left, right)
+            |[value] -> (value::left, right)
+            |fst::snd::tail -> divide (fst::left) (snd::right) tail
+        divide [] [] lt
+
+    let rec mergeSort lt = 
+        match lt with
+        | [] -> []
+        | [value] -> lt
+        |_ -> let left = fst (divideList lt)
+              let right = snd (divideList lt)
+              mergeLists (mergeSort left) (mergeSort right)
