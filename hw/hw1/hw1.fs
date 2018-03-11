@@ -2,11 +2,11 @@
 
     // task 1.1
 
-    let getFactorial x = 
-        let rec factorial x result =
+    let factorial x = 
+        let rec recursiveFactorial x result =
             if x <= 1 then result
-            else factorial (x - 1) (result * x)
-        factorial x 1
+            else recursiveFactorial (x - 1) (result * x)
+        recursiveFactorial x 1
 
     // task 1.2
 
@@ -30,4 +30,4 @@
         let rec addNext m list previous = 
             if m < 0 then list
             else addNext (m - 1) (previous * 2 :: list) (previous * 2)
-        addNext m [] (pown 2 n-1) |> List.rev
+        addNext m [] (pown 2 n - 1) |> List.rev
