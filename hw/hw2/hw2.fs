@@ -3,11 +3,12 @@
     // task 2.1
 
     let multiplyDigits n = 
-        let rec multiply n result = 
+        let rec multiply result n = 
             match n with
-            |0 -> if (n / 10) < 0 then result else 0
-            |_ -> multiply (n / 10) (result * (n % 10))
-        multiply n 1
+            |0 -> 0
+            |lastDigit when lastDigit / 10 = 0 -> result
+            |_ -> multiply (result * (n % 10))  (n / 10)
+        multiply 1 <| if n < 0 then -n else n
 
     // task 2.2 
 
@@ -15,8 +16,8 @@
         let rec getIndex list i = 
             match list with 
             |[] -> None
-            |head::tail -> if head = n then Some(i)
-                            else getIndex tail (i + 1)
+            |head::tail -> if head = n then Some(i) 
+                           else getIndex tail (i + 1)
         getIndex list 0
 
     // task 2.3
@@ -51,6 +52,5 @@
         match list with
         | [] -> []
         | [value] -> list
-        |_ -> let left = fst (splitList list)
-              let right = snd (splitList list)
+        |_ -> let left, right = splitList list
               mergeLists (mergeSort left) (mergeSort right)
