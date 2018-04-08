@@ -13,7 +13,7 @@ module Task1Tests =
 
     [<Test>]
     let ``averageSin of [] should throw System.ArgumentNullException`` () = 
-        (fun () -> averageSin [] |> ignore) |> should throw typeof<System.ArgumentNullException>
+        (fun () -> averageSin [] |> ignore) |> should throw typeof<System.ArgumentException>
 
     [<Test>]
     let ``averageSin of [Math.PI] should equal 0`` () = 

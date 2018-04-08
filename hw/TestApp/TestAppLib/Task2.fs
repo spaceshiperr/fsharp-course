@@ -6,9 +6,9 @@
             | Tree of 'a * Tree<'a> * Tree<'a>
             | Tip of 'a
         
-        let minRootTipDistance tree = 
-            let rec find tree distance list = 
+        let minTreeDepth tree = 
+            let rec find tree depth = 
                 match tree with
-                | Tree(_, left, right) -> min <| find left (distance + 1) list <| find right (distance + 1) list
-                | Tip _ -> distance :: list
-            List.min <| find tree 0 []
+                | Tree(_, left, right) -> min <| find left (depth + 1) <| find right (depth + 1)
+                | Tip _ -> depth
+            find tree 0

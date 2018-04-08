@@ -3,10 +3,10 @@
     module Task1 = 
 
         let averageSin list = 
-            let rec average list sum = 
+            let rec sum list result = 
                 match list with
-                | [] -> sum
-                | head::tail -> average tail <| sum + sin head
+                | [] -> result
+                | head::tail -> sum tail <| result + sin head
             match list with 
-            | [] -> raise (System.ArgumentNullException "Trying to find average sin of an empty list")
-            | _ -> (average list 0.0) / float(List.length list)
+            | [] -> raise (System.ArgumentException "Trying to find average sin of an empty list")
+            | _ -> (sum list 0.0) / float(List.length list)
