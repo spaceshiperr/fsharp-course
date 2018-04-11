@@ -12,7 +12,7 @@ module Task1Tests =
         averageSin [1.2; 2.1; 3.2] |> should (equalWithin 0.001) 0.578958
 
     [<Test>]
-    let ``averageSin of [] should throw System.ArgumentNullException`` () = 
+    let ``averageSin of [] should throw System.ArgumentException`` () = 
         (fun () -> averageSin [] |> ignore) |> should throw typeof<System.ArgumentException>
 
     [<Test>]
