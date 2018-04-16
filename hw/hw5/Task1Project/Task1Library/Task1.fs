@@ -9,6 +9,7 @@ module Task1 =
       /// <param name="set1">Char tuple of first type of brackets</param>
       /// <param name="set2">Char tuple of second type of brackets</param>
       /// <param name="set3">Char tuple of third type of brackets</param>
+      /// <returns>Returns true if the string is correct and false otherwise</returns>
       let isCorrectString (str, set1, set2, set3) = 
         let opening = [fst set1; fst set2; fst set3]
         let closing = [snd set1; snd set2; snd set3]
