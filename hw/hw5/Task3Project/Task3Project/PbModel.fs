@@ -6,7 +6,6 @@ open Newtonsoft.Json
 
 module PbModel = 
 
-
     type Profile(name: string, phone: string) = 
         member val Name = name with get, set
         member val Phone = phone with get, set
@@ -36,9 +35,10 @@ module PbModel =
                 use jsonReader = new JsonTextReader(reader)
                 let serializer = JsonSerializer()
                 mList <- serializer.Deserialize<Profile list>(jsonReader);
-                true
+                "read"
             with
-                | :? FileNotFoundException -> false
+                | :? FileNotFoundException -> "could not be found"
+                | :? JsonReaderException -> "has invalid data"
         member pb.Add name phone = add name phone
         member pb.FindByName name = getPhone name
         member pb.FindByPhone phone = getName phone

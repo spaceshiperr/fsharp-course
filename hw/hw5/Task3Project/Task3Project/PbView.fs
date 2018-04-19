@@ -25,11 +25,15 @@ module PbView =
             | :? System.FormatException -> printfn "The command must be a number! Try again!"; getCommand()
             | :? System.ArgumentOutOfRangeException -> printfn "The number is out of range! Try again!"; getCommand()
 
-    let getValue value = 
-        printfn "Enter the %s:" value
-        Console.ReadLine()
+    let rec getValue name = 
+        printfn "Enter the %s:" name
+        try 
+            let value = Console.ReadLine()
+            if value = "" then raise (System.ArgumentException null) else value
+        with
+            | :? System.ArgumentException -> printfn "The %s field should not be empty! Try again!" name; getValue name
     
-    let getName() = getValue "name"    
+    let getName() = getValue "name"
     let getPhone() = getValue "phone"    
     let getFilename() = getValue "filename"
     
@@ -37,4 +41,4 @@ module PbView =
     let printFoundName name phone = printfn "Number %s belongs to %s" phone name
     let printFoundPhone name phone = printfn "%s's number is %s" name phone
     let printSuccessMessage name action = printfn "%s's data was successfully %s!" name action
-    let printFailMessage() = printfn "The data couldn't be read since the file doesn't exist"
+    let printFailMessage message = printfn "The data couldn't be read since the file %s" message

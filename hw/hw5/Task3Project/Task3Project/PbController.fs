@@ -25,6 +25,9 @@ module PbController =
                | None -> printFoundName "someone who isn't in the phonebook" phone
         | 5 -> phonebook.Print()
         | 6 -> phonebook.Write <| getFilename()
-        | 7 -> if phonebook.Read <| getFilename() then printSuccessMessage "File" "read"
-               else printFailMessage()
+               printSuccessMessage "File" "saved"
+        | 7 -> let message =  phonebook.Read <| getFilename()
+               match message with
+               | "read" -> printSuccessMessage "File" message
+               | _ -> printFailMessage message
         | _ -> raise (System.ArgumentException "The command number is wrong")
