@@ -11,16 +11,16 @@ module Task3 =
         | Abstraction of 'a * Term<'a>
 
     /// <summary>
-    /// Replaces all occurrences of x with e1 in e2
+    /// Replaces all occurrences of x with substitutionExpression in initalExpression
     /// </summary>
     /// <param name="x">Variable of type Term that is being replaced</param>
-    /// <param name="exp1">Lambda expression of type Term with which the replacement of x is made</param>
-    /// <param name="exp2">Lambda expression of type Term in which the replacement is made</param>
-    let rec substitute x exp1 exp2 = 
-        match exp2 with
-        | Application (left, right) -> Application(substitute x exp1 left, substitute x exp1 right)
-        | Abstraction (v, f) when v <> x -> Abstraction(v, substitute x exp1 f)
-        | Variable (v) when x = v -> exp1
+    /// <param name="substitutionExpression">Lambda expression of type Term with which the replacement of x is made</param>
+    /// <param name="initalExpression">Lambda expression of type Term in which the replacement is made</param>
+    let rec substitute x substitutionExpression initalExpression = 
+        match initalExpression with
+        | Application(left, right) -> Application(substitute x substitutionExpression left, substitute x substitutionExpression right)
+        | Abstraction(v, f) when v <> x -> Abstraction(v, substitute x substitutionExpression f)
+        | Variable(v) when x = v -> substitutionExpression
         | _ as term -> term
 
     /// <summary>
