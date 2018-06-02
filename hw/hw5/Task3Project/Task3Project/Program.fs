@@ -1,23 +1,16 @@
 ﻿namespace Homework5
 
-open System
-open System.IO
 open System.Threading
 open PbView
 open PbController
 
-module Main = 
+module Phonebook = 
 
-    [<EntryPoint>]
-    let main argv =
-        printCommandList()
-        let rec handle command = 
-            match command with 
-            | 1 -> printExit()
-            | _ -> performAction command
-                   handle <| getCommand()            
-        handle <| getCommand()
+   [<EntryPoint>] 
+    let main argv = 
+        printCommandList() 
 
-        Thread.Sleep(3000)
+        performAction []
+ 
+        Thread.Sleep(3000) 
         0
-                
