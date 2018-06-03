@@ -7,7 +7,7 @@ open Homework7.Task2
 module Task2Tests = 
 
     [<Test>]
-    let ``NumberBuilder for "1" + "2" should return 3``() = 
+    let ``NumberBuilder for "1" + "2" should return Some 3``() = 
         let numberFlow = new NumberBuilder()
         let result = numberFlow {
             let! x = "1"
@@ -18,7 +18,7 @@ module Task2Tests =
         result.Value |> should equal 3
 
     [<Test>]
-    let ``NumberBuilder for "1" + "Ъ" should return null``() = 
+    let ``NumberBuilder for "1" + "Ъ" should return None``() = 
         let numberFlow = new NumberBuilder()
         let result = numberFlow {
             let! x = "1"
@@ -26,4 +26,4 @@ module Task2Tests =
             let z = x + y
             return z
         }
-        result |> should equal null
+        result |> should equal None
