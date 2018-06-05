@@ -32,3 +32,12 @@ module Task3Tests =
     let ``Pop for an empty stack should raise System.InvalidOperationException``() = 
         let mutable stack = Stack<string>()
         (fun () -> stack.Pop() |> ignore) |> should throw typeof<System.InvalidOperationException>
+
+    [<Test>]
+    let ``Pop should return the value of last element pushed into the stack``() = 
+        let mutable stack = Stack<string>()
+        stack.Push "you"
+        stack.Push "shall"
+        stack.Push "not"
+        stack.Push "pass"
+        stack.Pop() |> should equal "pass"
