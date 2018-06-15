@@ -5,9 +5,10 @@ open System
 module Task1 = 
 
     type RoundBuilder(accuracy: int) = 
-            member this.Bind(x, f) = 
-                x |> f
+            let isAccurate = accuracy >= 0 && accuracy <= 15
+            member this.Bind(x: double, f) = 
+                if isAccurate then f (Math.Round(x, accuracy))
+                else None
             member this.Return(x: double) = 
-                match accuracy with
-                | a when a < 0 || a > 15 -> None
-                | _ -> Some <| Math.Round(x, accuracy)
+                if isAccurate then Some <| Math.Round(x, accuracy)
+                else None
