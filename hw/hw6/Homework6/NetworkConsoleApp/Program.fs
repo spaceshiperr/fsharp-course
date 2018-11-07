@@ -5,6 +5,8 @@ open NetworkLibrary.NetworkModule
 [<EntryPoint>]
 let main argv =
     
+    // проверить на число компонент связности в графе и привести к одной
+
     let generateNetwork compCount = 
         let list = []
         let random = new Random()
@@ -23,7 +25,7 @@ let main argv =
                     let item: Computer = getRandomItem list
                     if List.contains item result || item.ID = hubID
                     then getNRandomItems list count result
-                    else getNRandomItems list (count - 1) <| (getRandomItem list) :: result
+                    else getNRandomItems list (count - 1) <| (item :: result)
                 else result
             getNRandomItems list count []
             
@@ -38,7 +40,7 @@ let main argv =
             let rec getComputers(unchangedList:list<Computer>, list: list<Computer>, result: list<Computer>) =
                 if (List.isEmpty list) then result
                 else 
-                    let connCount = random.Next((List.length unchangedList) + 1)
+                    let connCount = random.Next(List.length unchangedList)
                     let connections = getRandomConnections list.Head.ID unchangedList connCount
                     let computer = Computer(list.Head.ID, list.Head.OS, connections)
                     getComputers(unchangedList, list.Tail, (computer :: result))
