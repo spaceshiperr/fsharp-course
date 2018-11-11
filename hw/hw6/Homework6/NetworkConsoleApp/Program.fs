@@ -4,8 +4,7 @@ open NetworkLibrary.NetworkModule
 
 [<EntryPoint>]
 let main argv =
-    
-    // проверить на число компонент связности в графе и привести к одной
+   
 
     let generateNetwork compCount = 
         let list = []
@@ -17,17 +16,20 @@ let main argv =
             | 1 -> OSX
             | _ -> Linux
 
-        let getRandomConnections hubID list count = 
+        let getRandomConnections(hub: Computer, list: list<Computer>, count: int) = 
             let getRandomItem list = List.item (random.Next(List.length list)) list
             let rec getNRandomItems list count result = 
                 if count > 0
                 then 
                     let item: Computer = getRandomItem list
-                    if List.contains item result || item.ID = hubID
+                    if List.contains item result || item.ID = hub.ID || (List.contains item hub.Connections)
                     then getNRandomItems list count result
                     else getNRandomItems list (count - 1) <| (item :: result)
                 else result
             getNRandomItems list count []
+
+        let connect(hub: Computer, list: list<Computer>) = 
+            List.map (fun c -> if List.contains c hub.Connections then c.Connections <- hub :: c.Connections; c else c) list
             
         let rec getUnconnectedComputers list count = 
             let OS = getRandomOS()
@@ -37,18 +39,27 @@ let main argv =
             else list
         
         let getConnectedComputers list = 
-            let rec getComputers(unchangedList:list<Computer>, list: list<Computer>, result: list<Computer>) =
-                if (List.isEmpty list) then result
+            let rec getComputers(list: list<Computer>, index: int) =
+                if (index = list.Length) then list
                 else 
-                    let connCount = random.Next(List.length unchangedList)
-                    let connections = getRandomConnections list.Head.ID unchangedList connCount
-                    let computer = Computer(list.Head.ID, list.Head.OS, connections)
-                    getComputers(unchangedList, list.Tail, (computer :: result))
-            getComputers(list, list, [])
+                    let current = List.item index list
+                    let connCount = random.Next(list.Length)
+                    if (connCount > current.Connections.Length)
+                    then current.Connections <- getRandomConnections(current, list, connCount - current.Connections.Length) @ current.Connections
+                    else current.Connections <- current.Connections
+                    let updatedList = connect(current, List.map (fun (c: Computer) -> if c.ID = current.ID then current else c) list)
+                    getComputers(updatedList, index + 1)
+            getComputers(list, 0)
 
         let unconnectedComputers = getUnconnectedComputers [] compCount
         getConnectedComputers unconnectedComputers
     
     let computers = generateNetwork 10
+    for c in computers do
+        printfn "Computer %i with connections" c.ID
+        for conn in c.Connections do
+            printfn "Computer %i" conn.ID
+        printfn ""
+
     Network(computers).Start()
     0

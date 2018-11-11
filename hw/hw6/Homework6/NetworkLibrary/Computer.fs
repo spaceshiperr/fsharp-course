@@ -10,11 +10,13 @@ module ComputerModule =
         
         member val isInfected = false with get, set
 
+        member val Connections = connections with get, set
+
         member this.ID = ID
         
         member this.OS = OS
 
-        member this.Connections = connections
+        //member this.Connections = connections
 
         member this.Probability = match OS with
                                   | Windows -> 0.5
