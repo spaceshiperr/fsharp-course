@@ -7,37 +7,53 @@ module NetworkModule =
 
     type Network(computers: list<Computer>) = 
 
-        let spreadInfection() = 
+        let mutable computers = computers;
+        
+        member this.spreadInfection() = 
             let infect(computer: Computer) = 
                 for connection in computer.Connections do
                     connection.Spead()
             for computer in computers do
                 infect(computer)    
                 
-        let infectComputers() = 
+        member this.infectComputers() = 
             let random = new Random();
             for computer in computers do
                 computer.Infect(random)
 
-        let getInfected() = computers |> List.filter (fun x -> x.isInfected)
+        member this.getInfected() = computers |> List.filter (fun x -> x.isInfected)
 
-        let mutable computers = computers;
+        member this.infectedTotal() = this.getInfected() |> List.length
 
-        member this.infectedTotal() = getInfected() |> List.length
-
+        member this.SortByID computers = 
+            List.sortBy (fun (c: Computer) -> c.ID) computers
+            
         member this.printState() = 
-            let infected = getInfected()
+            printf "Infected computers: "
+            computers <- this.SortByID computers
+            let infected = this.getInfected()
             for computer in infected do
-                printfn "Computer %i is infected" computer.ID
-            printfn "\n"
+                printf "%i " computer.ID
+            printfn ""
+
+        member this.printConnections(computer: Computer) = 
+            printf "Computer %i is connected to: " computer.ID
+            let sortedConnections = this.SortByID computer.Connections
+            for connection in sortedConnections do
+                printf "%i " connection.ID
+
+        member this.printAllConnections() = 
+            computers <- this.SortByID computers
+            for computer in computers do
+                this.printConnections(computer)
+                printfn ""
 
         member this.Start() = 
-            let infectedCount = this.infectedTotal()
-            if (infectedCount = 0)
-            then infectComputers()
-                 this.Start()
-            else if (infectedCount <> computers.Length)
+            if (this.infectedTotal() <> computers.Length)
             then 
                 this.printState()
-                spreadInfection()
+                this.spreadInfection()
                 this.Start()
+            else
+                this.printState()
+                printfn "The network has been shut down."
