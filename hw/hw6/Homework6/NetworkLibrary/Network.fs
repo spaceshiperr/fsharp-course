@@ -8,13 +8,16 @@ module NetworkModule =
     type Network(computers: list<Computer>) = 
 
         let mutable computers = computers;
+
+        member this.getComputers() = computers
         
         member this.spreadInfection() = 
             let infect(computer: Computer) = 
                 for connection in computer.Connections do
                     connection.Spead()
-            for computer in computers do
-                infect(computer)    
+            let infected = this.getInfected()
+            for computer in infected do
+                infect(computer)
                 
         member this.infectComputers() = 
             let random = new Random();
