@@ -18,6 +18,7 @@ module NetworkTests =
         let c121 = Computer(121, Windows, [])
         let c122 = Computer(122, OSX, [])
         c1.Connections <- [c11; c12]
+        c1.isInfected <- true
         c11.Connections <- [c11; c111]
         c12.Connections <- [c11; c121; c122]
         c111.Connections <- [c11]
@@ -28,7 +29,6 @@ module NetworkTests =
 
     [<Test>]
     let ``start on the local network``() = 
-        network.infectComputers()
         network.Start()
         let expected = network.getComputers().Length
         let actual = network.infectedTotal()
