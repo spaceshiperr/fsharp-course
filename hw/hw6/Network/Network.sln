@@ -7,7 +7,7 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NetworkLibrary", "NetworkLi
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NetworkLibrary.Tests", "NetworkLibrary.Tests\NetworkLibrary.Tests.fsproj", "{89842DBC-327D-4D51-A371-A64051A92282}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NetworkConsoleApp", "NetworkConsoleApp\NetworkConsoleApp.fsproj", "{CB66BA3A-3CD1-41E8-B30A-4E8F9AFB8F3C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NetworkConsoleApp", "NetworkConsoleApp\NetworkConsoleApp.fsproj", "{CB66BA3A-3CD1-41E8-B30A-4E8F9AFB8F3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
