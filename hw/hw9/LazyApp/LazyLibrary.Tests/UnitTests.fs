@@ -33,16 +33,6 @@ module Tests =
         List.iter (fun (thread: Thread) -> thread.Join()) threads
         supplierExample.Count |> should equal 1
 
-
-    [<Test>]
-    let ``LockFreeLazy with SupplierExample's supplier method should be computed once``() = 
-        let supplierExample = SupplierExample()
-        let ilazy = LazyFactory.CreateLockFreeLazy(supplierExample.Supplier)
-        ilazy.Get() |> ignore
-        ilazy.Get() |> ignore
-        ilazy.Get() |> ignore
-        supplierExample.Count |> should equal 1
-
     [<Test>]
     let ``LockFreeLazy with (fun () -> box "test") method should return "test"``() = 
         let ilazy = LazyFactory.CreateLockFreeLazy((fun () -> box "test"))
