@@ -3,6 +3,9 @@ namespace Lazy.Tests
 open NUnit.Framework
 open FsUnit
 
+/// <summary>
+/// Test module for LazyFactory methods
+/// </summary>
 module Tests =
 
     open Lazy
@@ -39,7 +42,3 @@ module Tests =
         let threads = List.init 5 (fun i -> new Thread(fun () -> ilazy.Get() |> should equal "test"))
         List.iter (fun (thread: Thread) -> thread.Start()) threads
         List.iter (fun (thread: Thread) -> thread.Join()) threads
-
-        
-        
-
