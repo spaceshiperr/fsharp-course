@@ -31,7 +31,7 @@ type SingleThreadedLazy<'a when 'a: equality>(supplier: unit -> 'a) =
         let mutable result: 'a = Unchecked.defaultof<'a>
         [<VolatileField>]
         let mutable calculated = false
-        static let lockobj = new Object()
+        let lockobj = new Object()
         
         interface ILazy<'a> with
             member this.Get() =
